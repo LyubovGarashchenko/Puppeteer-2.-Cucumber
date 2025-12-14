@@ -5,7 +5,7 @@ const { Given, When, Then, Before, After } = require("cucumber");
 const { putText, getText } = require("../../lib/commands.js");
 
 Before(async function () {
-  const browser = await puppeteer.launch({ headless: false, slowMo: 50 });
+  const browser = await puppeteer.launch({ headless: false, slowMo: 50 }); 
   const page = await browser.newPage();
   this.browser = browser;
   this.page = page;
@@ -19,7 +19,7 @@ After(async function () {
 
 Given("user open the page", async function () {
   return await this.page.goto(`https://qamid.tmweb.ru/client/index.php`, 
-    {setTimeout: 20000,});
+    {setTimeout: 20000});
 });
 
 When("Buy simple ticket", async function () {

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "cucumber": "cucumber-js",
+    "cucumber": "cucumber-js ./puppeteer-2",
     "cucumberOnly": "cucumber-js --tags=@only"
   },
   "author": "Garashchenko Lyubov",

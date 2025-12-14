@@ -3,14 +3,14 @@ const {
   putText,
   getText,
 } = require("./puppeteer-2/lib/commands.js");
-//const { generateName } = require("./puppeteer-2/lib/util.js");
+const { generateName } = require("./puppeteer-2/lib/util.js");
 
 let page;
 
 beforeEach(async () => {
   page = await browser.newPage();
   await page.goto("https://qamid.tmweb.ru/client/index.php");
-  await page.setDefaultNavigationTimeout(0);
+  await page.setDefaultNavigationTimeout(5000);
 });
 
 afterEach(() => {
