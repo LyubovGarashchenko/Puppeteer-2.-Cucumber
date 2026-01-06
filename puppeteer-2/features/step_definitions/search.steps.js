@@ -48,19 +48,24 @@ When("Check purchase VIP ticket", async function () {
 });
 
 Then("user sees choosing Vip place", async function () {
-  const actual = await getText(this.page, "body main p:nth-child(1)");
+  const actual = await getText(this.page, "body main p:nth-child(3)");
   expect(actual).contain("В зале: Современный зал");
 });
 
  When("Check to buy busy ticket", async function () {
-  await clickElement(this.page, ".page-nav__day.page-nav__day_chosen");
-  await clickElement(this.page, ".movie-seances__time[href='#'][data-seance-id='217']");
-  await clickElement(this.page, "div[class='buying-scheme__wrapper'] div:nth-child(2) span:nth-child(2)");
+      await clickElement(page, "a:nth-child(2)");
+      await clickElement(page, ".movie-seances__time[href='#'][data-seance-id='217']");
+      await clickElement(page, "div[class='buying-scheme__wrapper'] div:nth-child(1) span:nth-child(3)");
 });
 
 Then("Error: the place is busy", async function () {
-  const acceptinButton = await this.page.$(".acceptin-button");
-  const notAvailable = await acceptinButton.evaluate((btn) => btn.disabled);
-  expect(notAvailable).equal(true);
-});
+  const acceptinButton = await page.$(".acceptin-button");
+      const acceptinQAButton = await page.$(".acceptin-button");
+      await page.goto("https://qamid.tmweb.ru/client");
+      await clickElement(page, "a:nth-child(2)");
+      await clickElement(page, ".movie-seances__time[href='#'][data-seance-id='217']");
+      await clickElement(page, ".buying-scheme__chair.buying-scheme__chair_standart.buying-scheme__chair_taken");
+      const isDisabled = await page.$eval(".acceptin-button", (button) => button.disabled);
+      expect(isDisabled).toEqual(true);
+      });
  

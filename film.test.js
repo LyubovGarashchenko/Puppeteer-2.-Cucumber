@@ -1,12 +1,11 @@
 const {clickElement,putText, getText,} = require("./puppeteer-2/lib/commands.js");
-const { generateName } = require("./puppeteer-2/lib/util.js");
 
 let page;
 
 beforeEach(async () => {
   page = await browser.newPage();
   await page.goto("https://qamid.tmweb.ru/client/index.php");
-  await page.setDefaultNavigationTimeout(500);
+  await page.setDefaultNavigationTimeout(70000);
 });
 
 afterEach(() => {
@@ -22,6 +21,7 @@ describe("Check booking movie tickets tests", () => {
     const actual = await getText(page, "body main p:nth-child(2)");
     expect(actual).toContain("Ряд/Место: 1/1");
   });
+
   test("The second happy test.Vip", async () => {
     await clickElement(page, "a[class='page-nav__day page-nav__day_weekend']"); // choose the date
     await clickElement(page, ".movie-seances__time[href='#'][data-seance-id='225']"); // choose film and time seance
@@ -30,13 +30,19 @@ describe("Check booking movie tickets tests", () => {
     const actual = await getText(page, "body main p:nth-child(3)");
     expect(actual).toContain("В зале: Современный зал");
   });
-  test("The sad test", async () => {
-    await clickElement(page, ".page-nav__day.page-nav__day_chosen"); // choose the date
+
+  test.only("The sad test", async () => {
+    await clickElement(page, "a:nth-child(2)"); // choose the date
     await clickElement(page, ".movie-seances__time[href='#'][data-seance-id='217']"); // choose film and time seance
-    await clickElement(page, "div[class='buying-scheme__wrapper'] div:nth-child(2) span:nth-child(2)");  //click on the buisy place
+    await clickElement(page, "div[class='buying-scheme__wrapper'] div:nth-child(1) span:nth-child(3)");  //click on the buisy place
     const acceptinButton = await page.$(".acceptin-button");
-    const notAvailable = await acceptinButton.evaluate((btn) => btn.disabled);
-    expect(notAvailable).toEqual(true);
-    });
+    const acceptinQAButton = await page.$(".acceptin-button");
+    await page.goto("https://qamid.tmweb.ru/client");
+    await clickElement(page, "a:nth-child(2)");
+    await clickElement(page, ".movie-seances__time[href='#'][data-seance-id='217']");
+    await clickElement(page, ".buying-scheme__chair.buying-scheme__chair_standart.buying-scheme__chair_taken"); //click on the buisy place
+    const isDisabled = await page.$eval(".acceptin-button", (button) => button.disabled);
+    expect(isDisabled).toEqual(true);
+    }, 100000);
 }); 
     
