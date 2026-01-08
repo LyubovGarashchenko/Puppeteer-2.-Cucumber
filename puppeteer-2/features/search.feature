@@ -2,9 +2,6 @@ Feature: Check booking movie tickets tests
     Scenario: The first happy test
         Given user open the page
         When user choose the date
-        When user choose the film and time
-        When user choose place
-        When user click the book button
         Then user sees choosing place
 
     Scenario: The second happy test.Vip
